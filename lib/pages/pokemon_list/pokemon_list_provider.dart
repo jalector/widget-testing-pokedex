@@ -1,4 +1,4 @@
-import 'package:app_pokedex/model/pokemon_generation.dart';
+import 'package:widget_test_pokedex/model/pokemon_generation.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../model/pokemon.dart';

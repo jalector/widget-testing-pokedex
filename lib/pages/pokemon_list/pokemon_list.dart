@@ -1,4 +1,4 @@
-import 'package:app_pokedex/pokedex/pokedex_api.dart';
+import 'package:widget_test_pokedex/pokedex/pokedex_api.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,7 +7,7 @@ import 'pokemon_list_provider.dart';
 
 class PokemonList extends StatelessWidget {
   final PokedexApi api;
-  const PokemonList(this.api, {Key? key}) : super(key: key);
+  const PokemonList(this.api, {super.key});
 
   @override
   Widget build(BuildContext context) {

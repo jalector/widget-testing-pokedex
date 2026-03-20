@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:app_pokedex/util/util.dart';
+import 'package:widget_test_pokedex/util/util.dart';
 
 import '../model/pokemon.dart';
 import 'package:http/http.dart' as http;
@@ -49,6 +49,8 @@ class PokedexApiAdapterDB implements PokedexApi {
       ),
     );
 
+    
+    await Future.delayed(const Duration(seconds: 1)); 
     return pokemons;
   }
 }

@@ -1,17 +1,16 @@
-
 class Pokemon {
   Pokemon({
-    required this.id,
-    required this.pokemonId,
-    required this.name,
-    required this.form,
-    required this.type1,
-    required this.type2,
-    required this.generation,
-    required this.atk,
-    required this.sta,
-    required this.def,
-    required this.maxcp,
+    this.id = 0,
+    this.pokemonId = '0',
+    this.name = '',
+    this.form = '',
+    this.type1 = '',
+    this.type2 = '',
+    this.generation = 0,
+    this.atk = 0,
+    this.sta = 0,
+    this.def = 0,
+    this.maxcp = 0,
   });
 
   int id;

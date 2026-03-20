@@ -1,30 +1,77 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+import 'package:widget_test_pokedex/model/pokemon.dart';
+import 'package:widget_test_pokedex/pages/pokemon_list/pokemon_list.dart';
+import 'package:widget_test_pokedex/pokedex/pokedex_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:app_pokedex/main.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
+import 'mock_pokemons.dart';
+import 'widget_test.mocks.dart';
+
+@GenerateMocks([PokedexApi])
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  final pokedexApi = MockPokedexApi();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  testWidgets('Should render the app', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: PokemonList(pokedexApi),
+    ));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.byType(PokemonList), findsOneWidget);
+  });
+
+  testWidgets('Should render loading while app is getting info',
+      (WidgetTester tester) async {
+    final mockData = Pokemon(
+      id: 1,
+      pokemonId: "BULBASAUR",
+      name: "Bulbasaur",
+      form: null,
+      type1: "grass",
+      type2: "poison",
+      generation: 1,
+      atk: 118,
+      sta: 128,
+      def: 111,
+      maxcp: 1260,
+    );
+    when(pokedexApi.getGeneartion(any)).thenAnswer((_) async => [mockData]);
+
+    await tester.pumpWidget(MaterialApp(
+      home: PokemonList(pokedexApi),
+    ));
+
+    expect(find.byType(PokemonList), findsOneWidget);
+    expect(find.byKey(Key('loading')), findsOneWidget);
+  });
+
+  testWidgets('Should render the item list', (WidgetTester tester) async {
+    when(pokedexApi.getGeneartion(any)).thenAnswer((_) async => mockList);
+
+    await tester.pumpWidget(MaterialApp(
+      home: PokemonList(pokedexApi),
+    ));
+
+    await tester.pump();
+
+    expect(find.byKey(Key('pokemon-list')), findsOneWidget);
+    expect(find.byKey(Key('pokemon-tile-1')), findsOneWidget);
+  });
+
+  testWidgets('Should render error if request fail',
+      (WidgetTester tester) async {
+    when(pokedexApi.getGeneartion(any)).thenThrow((_) async => 'error');
+
+    await tester.pumpWidget(MaterialApp(
+      home: PokemonList(pokedexApi),
+    ));
+
+    await tester.pump();
+
+    expect(find.byKey(Key('error')), findsOneWidget);
   });
 }

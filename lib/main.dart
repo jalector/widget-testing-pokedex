@@ -1,5 +1,5 @@
-import 'package:app_pokedex/pages/pokemon_list/pokemon_list.dart';
-import 'package:app_pokedex/pokedex/pokedex_api.dart';
+import 'package:widget_test_pokedex/pages/pokemon_list/pokemon_list.dart';
+import 'package:widget_test_pokedex/pokedex/pokedex_api.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,8 +12,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Widget Testing Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
+      // home: PokemonList(PokedexApiAdapter()),
       home: PokemonList(PokedexApiAdapterDB()),
     );
   }
